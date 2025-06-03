@@ -16,17 +16,7 @@
             <i class="navbar-brand fw-bold text-purple">Thander Assistência Técnica</i>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a href="home.html" class="nav-link text-white">Home</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link text-white">Marcas</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link text-white">Serviços</a></li>
-                    <li class="nav-item">
-                        <a href="pagina_login.html" class="btn btn-outline-purple nav-link text-white">Login</a>
-                    </li>
-                </ul>
-            </div>
+            </button>       
         </div>
     </nav>
 </header>
@@ -38,10 +28,8 @@
                 <h3 class="m-0 text-light">Administrador</h3>
             </div>
             <div class="p-4">
-                <h5 class="mb-4">Ações Disponíveis:</h5>
-
                 <div class="d-grid gap-3">
-                    <a href="cadastrar_tecnico.php" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i> Cadastrar Técnico</a>
+                   
                     <a href="ordem_servico.php" class="btn btn-primary"><i class="bi bi-journal-text"></i> Registrar Ordem de Serviço</a>
                     <a href="gerar_relatorios.php" class="btn btn-primary"><i class="bi bi-file-earmark-bar-graph"></i> Gerar Relatórios</a>
                     <a href="login.php" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i> Login / Logout</a>

@@ -13,6 +13,9 @@ try {
     die("Erro ao conectar: " . $e->getMessage());
 }
 
+$msg = '';
+$msg_tipo = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     switch ($_POST['acao'] ?? '') {
         case 'inserir':
@@ -21,33 +24,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $end     = $_POST['endereco'];
             $ap      = $_POST['aparelho_marca'];
             $desc    = $_POST['descricao'];
-            $stmt = $pdo->prepare("
-              INSERT INTO ordem_servicos
-                (nome, telefone, endereco, aparelho_marca, descricao, status)
-              VALUES (?,?,?,?,?, 'Aberta')
-            ");
-            $stmt->execute([$nome, $tel, $end, $ap, $desc]);
+
+            try {
+                $stmt = $pdo->prepare("
+                    INSERT INTO ordem_servicos
+                    (nome, telefone, endereco, aparelho_marca, descricao, status)
+                    VALUES (?,?,?,?,?, 'Aberta')
+                ");
+                $stmt->execute([$nome, $tel, $end, $ap, $desc]);
+                $msg = "Cadastro realizado com sucesso!";
+                $msg_tipo = "success";
+            } catch (PDOException $e) {
+                $msg = "Erro ao cadastrar: " . $e->getMessage();
+                $msg_tipo = "danger";
+            }
             break;
 
         case 'editar':
             $id   = $_POST['id_ordem'];
+            $nome = $_POST ['nome'];
+            $tel = $_POST ['telefone'];
+            $end = $_POST ['endereco'];
             $nova = $_POST['nova_descricao'];
-            $stmt = $pdo->prepare("UPDATE ordem_servicos SET descricao = ? WHERE id = ?");
-            $stmt->execute([$nova, $id]);
+
+            try {
+                $stmt = $pdo->prepare("UPDATE ordem_servicos SET descricao = ? WHERE id = ?");
+                $stmt->execute([$nova, $id]);
+                $msg = "Descrição atualizada com sucesso!";
+                $msg_tipo = "success";
+            } catch (PDOException $e) {
+                $msg = "Erro ao editar: " . $e->getMessage();
+                $msg_tipo = "danger";
+            }
             break;
 
         case 'status':
             $id     = $_POST['id_ordem_status'];
             $status = $_POST['novo_status'];
-            $stmt   = $pdo->prepare("UPDATE ordem_servicos SET status = ? WHERE id = ?");
-            $stmt->execute([$status, $id]);
+
+            try {
+                $stmt = $pdo->prepare("UPDATE ordem_servicos SET status = ? WHERE id = ?");
+                $stmt->execute([$status, $id]);
+                $msg = "Status atualizado com sucesso!";
+                $msg_tipo = "success";
+            } catch (PDOException $e) {
+                $msg = "Erro ao alterar status: " . $e->getMessage();
+                $msg_tipo = "danger";
+            }
             break;
     }
-    
 }
 
 $ordens = $pdo->query("SELECT * FROM ordem_servicos ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -55,24 +85,24 @@ $ordens = $pdo->query("SELECT * FROM ordem_servicos ORDER BY id DESC")->fetchAll
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ordem de Serviço - Thander</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow">
     <div class="container">
-      <span class="navbar-brand fw-bold text-white">Thander Assistência Técnica</span>
+      <i class="navbar-brand fw-bold text-purple">Thander Assistência Técnica</i>
       <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a href="home.html" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Marcas</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Serviços</a></li>
+          <li class="nav-item"><a href="adm.php" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="ordem_servico.php" class="nav-link">Ordem</a></li>
+          <li class="nav-item"><a href="gerar_relatorios.php" class="nav-link">Relatórios</a></li>
           <li class="nav-item">
-            <a href="logout.php" class="btn btn-outline-light nav-link">Sair</a>
+            <a href="adm.php" class="nav-link">Sair</a>
           </li>
         </ul>
       </div>
@@ -84,6 +114,13 @@ $ordens = $pdo->query("SELECT * FROM ordem_servicos ORDER BY id DESC")->fetchAll
 
 <div class="container">
   <h2 class="text-center">Gerenciar Ordem de Serviço</h2>
+
+  <?php if ($msg): ?>
+    <div class="alert alert-<?= $msg_tipo ?> alert-dismissible fade show mt-3" role="alert">
+      <?= htmlspecialchars($msg) ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+  <?php endif; ?>
 
   <ul class="nav nav-tabs mt-4" id="ordemTab" role="tablist">
     <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#add">Adicionar</button></li>
@@ -121,11 +158,6 @@ $ordens = $pdo->query("SELECT * FROM ordem_servicos ORDER BY id DESC")->fetchAll
         <button type="submit" name="acao" value="inserir" class="btn btn-success mt-3">Adicionar Ordem</button>
       </form>
     </div>
-      <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == '1'): ?>
-    <div class="alert alert-success mt-3" role="alert">
-      Cadastro realizado com sucesso!
-    </div>
-  <?php endif; ?> 
 
     <!-- Editar -->
     <div class="tab-pane fade" id="edit">
@@ -134,6 +166,19 @@ $ordens = $pdo->query("SELECT * FROM ordem_servicos ORDER BY id DESC")->fetchAll
           <label class="form-label">ID da Ordem</label>
           <input type="number" name="id_ordem" class="form-control" required>
         </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nome Completo</label>
+            <input type="text" name="nome" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Número de Telefone</label>
+            <input type="tel" name="telefone" class="form-control" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Endereço</label>
+            <input type="text" name="endereco" class="form-control" required>
+          </div>
         <div class="mb-3">
           <label class="form-label">Nova Descrição</label>
           <textarea name="nova_descricao" class="form-control" required></textarea>
@@ -163,15 +208,12 @@ $ordens = $pdo->query("SELECT * FROM ordem_servicos ORDER BY id DESC")->fetchAll
     </div>
 
   </div>
+</div>
 
 
-  <main class="container">
 <footer class="footer">
-  
-    <p class="m-0">&copy; Thander Assistência Técnica 2025. Todos os direitos reservados.</p>
- 
+  <p class="m-0">&copy; Thander Assistência Técnica 2025. Todos os direitos reservados.</p>
 </footer>
-</main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
