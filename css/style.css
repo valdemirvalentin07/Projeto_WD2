@@ -1,80 +1,123 @@
-/* Estilo base do corpo */
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f7f9fc;
+/* Reset box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Base HTML e Body */
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
+  font-family: sans-serif;
+  background-color: #f8f9fa;
 }
 
-/* Espaço para compensar a navbar fixa */
-.navbar-spacer {
-  height: 80px;
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 80px; /* Espaço para navbar fixa */
 }
 
-/* Navbar personalizada */
+/* Main ocupa espaço flexível */
+main {
+  flex-grow: 1;
+}
+
+/* Header e Navbar */
 .navbar-custom {
   background-color: #0808B7;
 }
 
-.navbar-custom .nav-link,
-.navbar-custom .navbar-brand {
-  color: #fff;
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: #ffffff;
 }
 
-.navbar-custom .nav-link:hover {
-  color: #dce3ff;
+.navbar-custom .btn-outline-light {
+  color: #ffffff;
+  border-color: #ffffff;
 }
 
-
-
-/* Títulos */
-h2 {
-  margin-top: 20px;
-  font-weight: bold;
+.navbar-custom .btn-outline-light:hover {
+  background-color: #ffffff;
   color: #0808B7;
 }
 
 /* Tabs */
-.nav-tabs .nav-link.active {
-  background-color: #0808B7;
-  color: #fff;
-  border: 1px solid #dee2e6;
+.nav-tabs {
+  border-bottom: 2px solid #0808B7;
 }
 
 .nav-tabs .nav-link {
   color: #0808B7;
-  border: 1px solid transparent;
   font-weight: 500;
 }
 
-/* Formulários */
-form {
-  background-color: #fff;
-  border-radius: 6px;
+.nav-tabs .nav-link.active {
+  background-color: #0808B7;
+  color: #ffffff;
+  border-color: #0808B7 #0808B7 transparent;
 }
 
-form .form-label {
+/* Conteúdo das abas */
+.tab-pane {
+  min-height: 300px; /* Evita salto vertical ao trocar abas */
+  border: 1px solid #0808B7;
+  border-top: none;
+  padding: 20px;
+  background-color: #ffffff;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-bottom: 2rem;
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+  border: 1px solid #0808B7;
+  border-radius: 5px;
+}
+
+/* Labels */
+label {
   font-weight: 500;
+  color: #333333;
 }
 
-form .btn {
-  min-width: 150px;
+/* Botões */
+.btn-success {
+  background-color: #0b8f3c;
+  border-color: #0b8f3c;
 }
 
-/* Alertas */
-.alert {
-  font-weight: 500;
+.btn-primary {
+  background-color: #084298;
+  border-color: #084298;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #000000;
 }
 
 /* Footer */
 .footer {
   background-color: #0808B7;
-  color: white;
-  padding: 15px 0;
-  text-align: center;
-  margin-top: 50px;
-  position: relative;
-  bottom: 0;
+  color: #ffffff;
+  padding: 1rem 0;
   width: 100%;
-  border-top: 3px solid #0808B7;
+  text-align: center;
+  margin-top: auto;
+  box-sizing: border-box;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+}
+
+.footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }

@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tipoMensagem = 'danger';
         }
     } elseif (isset($_POST['editar']) && is_numeric($_POST['id'])) {
-        header("Location: editar_ordem.php?id=" . $_POST['id']);
+        header("Location: editar_servicos.php?id=" . $_POST['id']);
         exit;
     }
 }
