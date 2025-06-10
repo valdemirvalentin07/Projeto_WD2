@@ -6,7 +6,7 @@ if (!isset($_SESSION['usuario'], $_SESSION['tipo'])) {
 }
 
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=thander', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=thander', 'appuser', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Erro ao conectar: " . $e->getMessage());

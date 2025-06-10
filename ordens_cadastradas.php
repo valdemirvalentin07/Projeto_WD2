@@ -1,52 +1,27 @@
 <?php 
+
+
+
+ 
 session_start();
 if (!isset($_SESSION['usuario'], $_SESSION['tipo'])) {
     header("Location: Login.html");
     exit;
 }
 
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=thander', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erro ao conectar: " . $e->getMessage());
-}
+require_once 'Classes/db.php';
+
+// BUSCA OS DADOS AQUI
+$stmtStatus = $pdo->query("SELECT status, COUNT(*) AS total FROM ordem_servicos GROUP BY status");
+$relStatus = $stmtStatus->fetchAll(PDO::FETCH_ASSOC);
+
+$stmtOrdens = $pdo->query("SELECT * FROM ordem_servicos ORDER BY data_entrada DESC");
+$ordens = $stmtOrdens->fetchAll(PDO::FETCH_ASSOC);
 
 $mensagem = '';
 $tipoMensagem = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['excluir']) && is_numeric($_POST['id'])) {
-        $id = $_POST['id'];
-        $stmt = $pdo->prepare("DELETE FROM ordem_servicos WHERE id = ?");
-        if ($stmt->execute([$id])) {
-            $mensagem = "Ordem ID $id excluída com sucesso.";
-            $tipoMensagem = 'success';
-        } else {
-            $mensagem = "Erro ao excluir a ordem.";
-            $tipoMensagem = 'danger';
-        }
-    } elseif (isset($_POST['editar']) && is_numeric($_POST['id'])) {
-        header("Location: editar_servicos.php?id=" . $_POST['id']);
-        exit;
-    } elseif (isset($_POST['registrar_retirada']) && is_numeric($_POST['id'])) {
-        $id = $_POST['id'];
-        $data_retirada = $_POST['data_retirada'];
-
-        $stmt = $pdo->prepare("UPDATE ordem_servicos SET data_retirada = ? WHERE id = ?");
-        if ($stmt->execute([$data_retirada, $id])) {
-            $mensagem = "Data de retirada registrada com sucesso.";
-            $tipoMensagem = 'success';
-        } else {
-            $mensagem = "Erro ao registrar data de retirada.";
-            $tipoMensagem = 'danger';
-        }
-    }
-}
-
-$relStatus = $pdo->query("SELECT status, COUNT(*) AS total FROM ordem_servicos GROUP BY status")->fetchAll(PDO::FETCH_ASSOC);
-$ordens = $pdo->query("SELECT * FROM ordem_servicos ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
