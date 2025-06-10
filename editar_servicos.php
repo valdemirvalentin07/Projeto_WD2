@@ -71,7 +71,7 @@ if (!$ordem) {
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a href="adm.php" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="ordem_servico.php" class="nav-link">Ordens</a></li>
-          <li class="nav-item"><a href="gerar_relatorios.php" class="nav-link active">Relatórios</a></li>
+          <li class="nav-item"><a href="ordens_cadastradas.php" class="nav-link active">Cadastros</a></li>
           <li class="nav-item"><a href="adm.php" class="nav-link">Sair</a></li>
         </ul>
       </div>
@@ -123,7 +123,7 @@ if (!$ordem) {
     </div>
 
     <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-    <a href="gerar_relatorios.php" class="btn btn-secondary">Voltar</a>
+    <a href="ordens_cadastradas.php" class="btn btn-secondary">Voltar</a>
   </form>
 </div>
 

@@ -31,7 +31,7 @@
                 <div class="d-grid gap-3">
                    
                     <a href="ordem_servico.php" class="btn btn-primary"><i class="bi bi-journal-text"></i> Registrar Ordem de Serviço</a>
-                    <a href="gerar_relatorios.php" class="btn btn-primary"><i class="bi bi-file-earmark-bar-graph"></i> Gerar Relatórios</a>
+                    <a href="ordens_cadastradas.php" class="btn btn-primary"><i class="bi bi-file-earmark-bar-graph"></i>Ordens cadastradas</a>
                     <a href="login.php" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i> Login / Logout</a>
                 </div>
 

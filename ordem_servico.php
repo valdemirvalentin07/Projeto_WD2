@@ -19,19 +19,20 @@ $msg_tipo = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     switch ($_POST['acao'] ?? '') {
         case 'inserir':
-            $nome    = $_POST['nome'];
-            $tel     = $_POST['telefone'];
-            $end     = $_POST['endereco'];
-            $ap      = $_POST['aparelho_marca'];
-            $desc    = $_POST['descricao'];
+            $nome         = $_POST['nome'];
+            $tel          = $_POST['telefone'];
+            $end          = $_POST['endereco'];
+            $ap           = $_POST['aparelho_marca'];
+            $desc         = $_POST['descricao'];
+            $data_entrada = $_POST['data_entrada']; // recebe do formulário
 
             try {
                 $stmt = $pdo->prepare("
                     INSERT INTO ordem_servicos
-                    (nome, telefone, endereco, aparelho_marca, descricao, status)
-                    VALUES (?,?,?,?,?, 'Aberta')
+                    (nome, telefone, endereco, aparelho_marca, descricao, status, data_entrada)
+                    VALUES (?, ?, ?, ?, ?, 'Aberta', ?)
                 ");
-                $stmt->execute([$nome, $tel, $end, $ap, $desc]);
+                $stmt->execute([$nome, $tel, $end, $ap, $desc, $data_entrada]);
                 $msg = "Cadastro realizado com sucesso!";
                 $msg_tipo = "success";
             } catch (PDOException $e) {
@@ -80,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a href="adm.php" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="ordem_servico.php" class="nav-link active">Ordem</a></li>
-          <li class="nav-item"><a href="gerar_relatorios.php" class="nav-link">Relatórios</a></li>
+          <li class="nav-item"><a href="ordens_cadastradas.php" class="nav-link">Cadastros</a></li>
           <li class="nav-item"><a href="adm.php" class="nav-link">Sair</a></li>
         </ul>
       </div>
@@ -89,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </header>
 
 <div class="navbar-spacer"></div>
-
 
 <main class="container flex-grow-1">
   <h2 class="text-center">Gerenciar Ordem de Serviço</h2>
@@ -130,6 +130,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div class="col-12">
             <label class="form-label">Descrição do Problema</label>
             <textarea name="descricao" class="form-control" rows="3" required></textarea>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Data de Entrada</label>
+            <input type="date" name="data_entrada" class="form-control" required />
           </div>
         </div>
         <button type="submit" name="acao" value="inserir" class="btn btn-success mt-3">Adicionar Ordem</button>

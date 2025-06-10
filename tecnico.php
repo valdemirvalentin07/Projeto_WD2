@@ -21,7 +21,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a href="home.html" class="nav-link text-white">Home</a></li>
                     <li class="nav-item"><a href="#" class="nav-link text-white">Marcas</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link text-white">Serviços</a></li>
+                    <li class="nav-item"><a href="orcamento.php" class="nav-link text-white">Serviços</a></li>
                     <li class="nav-item">
                         <a href="pagina_login.html" class="btn btn-outline-purple nav-link text-white">Login</a>
                     </li>
@@ -38,13 +38,11 @@
                 <h3 class="m-0 text-light">Técnico</h3>
             </div>
             <div class="p-4">
-                <h5 class="mb-4">Ações Disponíveis:</h5>
+                
 
                 <div class="d-grid gap-3">
                     <a href="login.php" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i> Login / Logout</a>
-                    <a href="adicionar_observacoes.php" class="btn btn-primary"><i class="bi bi-journal-plus"></i> Adicionar Observações</a>
-                    <a href="visualizar_relatorios.php" class="btn btn-primary"><i class="bi bi-bar-chart-line"></i> Visualizar Relatórios</a>
-                    <a href="visualizar_ordem.php" class="btn btn-primary"><i class="bi bi-card-list"></i> Visualizar Ordem de Serviços</a>
+                    <a href="orcamento.php" class="btn btn-primary"><i class="bi bi-card-list"></i>Orçamento</a>
                 </div>
 
             </div>

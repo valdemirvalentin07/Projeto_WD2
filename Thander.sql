@@ -1,21 +1,19 @@
 CREATE DATABASE Thander;
 USE Thander;
 
-create table ordem_servicos(
-id INT AUTO_INCREMENT PRIMARY KEY,
-nome VARCHAR(150),
-telefone VARCHAR(20),
-endereco VARCHAR(255),
-aparelho_marca VARCHAR(100),
-descricao TEXT,
-status ENUM('Aberta','Em andamento','Concluída','Cancelada')
-);
-
-CREATE TABLE usuarios (
+CREATE TABLE ordem_servicos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    usuario VARCHAR(50) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL,
-    tipo ENUM('admin') NOT NULL
+    telefone VARCHAR(20),
+    endereco VARCHAR(150),
+    aparelho_marca VARCHAR(100),
+    descricao TEXT,
+    status VARCHAR(50) DEFAULT 'Aberta',
+    data_entrada DATE NOT NULL,
+    data_retirada DATE DEFAULT NULL,
+    orcamento_descricao TEXT DEFAULT NULL,
+    orcamento_valor DECIMAL(10,2) DEFAULT NULL
 );
+
+
 
